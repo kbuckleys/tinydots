@@ -31,13 +31,27 @@
   --tab-selected-outline-color: transparent !important;
 }
 
-/* ============ Nav buttons hidden ============ */
+/* ============ Nav buttons: back/forward hidden; reload hidden in the nav bar only ============ */
 #back-button,
-#forward-button,
-#reload-button,
-#stop-button,
-#stop-reload-button {
+#forward-button {
   display: none !important;
+}
+#nav-bar-customization-target > #stop-reload-button {
+  display: none !important;
+}
+
+/* ============ Reload/stop button inside the urlbar (only used if moved there by a script) ============ */
+#urlbar #stop-reload-button {
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 2px !important;
+  padding: 0 !important;
+}
+#urlbar #stop-reload-button > .toolbarbutton-1 {
+  margin: 0 !important;
+  padding: 4px !important;
+  width: 24px !important;
+  height: 24px !important;
 }
 
 /* ============ Hamburger on the left ============ */
@@ -58,11 +72,14 @@ menupopup {
   border-radius: 0 !important;
 }
 
-/* ============ Remove close buttons, favicons, new-tab button, placeholders ============ */
+/* ============ Remove close buttons, favicons, media icons, new-tab button, placeholders ============ */
 .tab-close-button,
 .tab-icon-stack,
 .tab-icon-image,
 .tab-throbber,
+.tab-audio-button,
+.tab-icon-overlay,
+.tab-secondary-label,
 #tabs-newtab-button,
 #new-tab-button,
 .tabs-newtab-button,
@@ -201,9 +218,15 @@ menupopup {
   color: inherit !important;
 }
 
-/* ============ Dotted divider between tabs ============ */
-.tabbrowser-tab:not([closing]) ~ .tabbrowser-tab:not([closing]) {
+/* ============ Dotted divider between tabs (drawn on the tab background layer) ============ */
+.tabbrowser-tab:not([closing]) ~ .tabbrowser-tab:not([closing]) .tab-background {
   border-inline-start: 2px dotted var(--tab-divider-color) !important;
+}
+
+/* No divider on either side of the active tab */
+#tabbrowser-tabs .tabbrowser-tab[selected] .tab-background,
+#tabbrowser-tabs .tabbrowser-tab[selected] + .tabbrowser-tab .tab-background {
+  border-inline-start-color: transparent !important;
 }
 
 /* ============ No border between tab bar and nav bar ============ */
@@ -218,7 +241,6 @@ menupopup {
 .tab-background,
 .tabbrowser-tab[selected] .tab-background {
   outline: 0 !important;
-  border: 0 !important;
   box-shadow: none !important;
 }
 
