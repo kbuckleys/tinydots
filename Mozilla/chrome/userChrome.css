@@ -1,0 +1,228 @@
+/* ┌─┐┌─┐┌┐┌┬ ┬┌─┐┬─┐┬┌─┌─┐
+/* ┌─┘├┤ │││││││ │├┬┘├┴┐└─┐
+/* └─┘└─┘┘└┘└┴┘└─┘┴└─┴ ┴└─┘
+/* https://github.com/kbuckleys/
+
+/* ============ Variables: square corners, no tab padding, no tab hover ============ */
+:root {
+  --border-radius-xsmall: 0 !important;
+  --border-radius-small: 0 !important;
+  --border-radius-medium: 0 !important;
+  --border-radius-large: 0 !important;
+  --border-radius-xlarge: 0 !important;
+  --tab-border-radius: 0 !important;
+
+  --tab-block-margin: 0px !important;
+  --tab-inline-padding: 0px !important;
+  --tab-inner-inline-margin: 0px !important;
+  --toolbarbutton-inner-padding: 0px;
+
+  --tab-hover-background-color: transparent !important;
+
+  /* Tab divider: mid-gray with some transparency, readable on dark and light themes */
+  --tab-divider-color: rgba(128, 128, 128, 0.7);
+
+  /* Max share of the tab's width that its title can use */
+  --tab-title-max-width: 85%;
+
+  /* Border between tab bar and nav bar */
+  --tabs-navbar-shadow-size: 0px !important;
+  --tabs-border-color: transparent !important;
+  --tab-selected-outline-color: transparent !important;
+}
+
+/* ============ Nav buttons hidden ============ */
+#back-button,
+#forward-button,
+#reload-button,
+#stop-button,
+#stop-reload-button {
+  display: none !important;
+}
+
+/* ============ Hamburger on the left ============ */
+#PanelUI-button {
+  order: -1 !important;
+}
+
+/* ============ Square corners (fallbacks) ============ */
+.tab-background,
+#urlbar-background,
+.urlbarView,
+.toolbarbutton-1,
+.browserContainer,
+#tabbrowser-tabpanels,
+#navigator-toolbox,
+panel,
+menupopup {
+  border-radius: 0 !important;
+}
+
+/* ============ Remove close buttons, favicons, new-tab button, placeholders ============ */
+.tab-close-button,
+.tab-icon-stack,
+.tab-icon-image,
+.tab-throbber,
+#tabs-newtab-button,
+#new-tab-button,
+.tabs-newtab-button,
+#tabbrowser-arrowscrollbox-periphery,
+#alltabs-button,
+.titlebar-spacer,
+#TabsToolbar .titlebar-buttonbox-container,
+#TabsToolbar .titlebar-buttonbox,
+#TabsToolbar .titlebar-min,
+#TabsToolbar .titlebar-max,
+#TabsToolbar .titlebar-restore,
+#TabsToolbar .titlebar-close {
+  display: none !important;
+}
+
+/* Hide everything in the tab toolbar except the tab strip itself */
+#TabsToolbar-customization-target > :not(#tabbrowser-tabs) {
+  display: none !important;
+}
+#TabsToolbar::before,
+#TabsToolbar::after,
+#tabbrowser-tabs::before,
+#tabbrowser-tabs::after,
+#tabbrowser-arrowscrollbox::before,
+#tabbrowser-arrowscrollbox::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* ============ Zero padding / gaps around tabs ============ */
+#TabsToolbar,
+#TabsToolbar .toolbar-items,
+#TabsToolbar-customization-target,
+#tabbrowser-tabs {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+  border: 0 !important;
+}
+#tabbrowser-arrowscrollbox,
+#tabbrowser-arrowscrollbox::part(scrollbox) {
+  padding: 0 !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+.tabbrowser-tab {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.tab-background {
+  margin: 0 !important;
+}
+.tab-content {
+  padding: 0 !important;
+}
+
+/* ============ Tabs span the full width (every wrapper fills the toolbar) ============ */
+#TabsToolbar {
+  display: flex !important;
+  width: 100% !important;
+}
+#TabsToolbar .toolbar-items,
+#TabsToolbar-customization-target {
+  display: flex !important;
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+#tabbrowser-tabs,
+#tabbrowser-arrowscrollbox {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+.tabbrowser-tab[fadein]:not([pinned]):not([closing]) {
+  flex: 1 1 0 !important;
+  max-width: 100vw !important; /* real value, not "none", so close animations still finish */
+}
+.tab-stack {
+  width: 100% !important;
+}
+
+/* ============ Centered tab labels, capped at 85% of the tab width ============ */
+.tab-content {
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+.tab-label-container {
+  display: flex !important;
+  flex: 0 1 var(--tab-title-max-width) !important;
+  width: var(--tab-title-max-width) !important;
+  max-width: var(--tab-title-max-width) !important;
+  min-width: 0 !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  mask-image: none !important;
+}
+.tab-label,
+.tab-text {
+  display: block !important;
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: center !important;
+  text-align-last: center !important;
+  -moz-box-pack: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* ============ Bold active tab ============ */
+.tabbrowser-tab[selected] .tab-label,
+.tabbrowser-tab[selected] .tab-text {
+  font-weight: bold !important;
+}
+
+/* ============ No hover effect on tabs ============ */
+.tabbrowser-tab:not([selected]):hover .tab-background,
+.tabbrowser-tab:not([selected]):hover > .tab-stack > .tab-background {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: transparent !important;
+}
+.tabbrowser-tab:hover .tab-label {
+  color: inherit !important;
+}
+
+/* ============ Dotted divider between tabs ============ */
+.tabbrowser-tab:not([closing]) ~ .tabbrowser-tab:not([closing]) {
+  border-inline-start: 2px dotted var(--tab-divider-color) !important;
+}
+
+/* ============ No border between tab bar and nav bar ============ */
+#TabsToolbar {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+#nav-bar {
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+.tab-background,
+.tabbrowser-tab[selected] .tab-background {
+  outline: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ============ Hide tab bar unless there are 2+ live tabs ============ */
+#TabsToolbar:not(:has(tab:not([closing]) ~ tab:not([closing]))):not(:has(tab-group)):not(:has(#pinned-tabs-container tab)) {
+  visibility: collapse !important;
+}
