@@ -226,3 +226,10 @@ menupopup {
 #TabsToolbar:not(:has(tab:not([closing]) ~ tab:not([closing]))):not(:has(tab-group)):not(:has(#pinned-tabs-container tab)) {
   visibility: collapse !important;
 }
+
+/* Hide tab media (playing/muted) indicators */
+.tab-audio-button,
+.tab-icon-overlay,
+.tab-secondary-label {
+  display: none !important;
+}
