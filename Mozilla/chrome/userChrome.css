@@ -250,3 +250,11 @@ menupopup {
 .tab-secondary-label {
   display: none !important;
 }
+
+/* ============ Center urlbar text when not focused ============ */
+#urlbar:not([focused]) #urlbar-input {
+  text-align: center !important;
+}
+#urlbar:not([focused]) #urlbar-input::placeholder {
+  text-align: center !important;
+}
