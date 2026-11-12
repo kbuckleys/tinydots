@@ -54,11 +54,6 @@
   height: 24px !important;
 }
 
-/* ============ Hamburger on the left ============ */
-#PanelUI-button {
-  order: -1 !important;
-}
-
 /* ============ Square corners (fallbacks) ============ */
 .tab-background,
 #urlbar-background,
