@@ -258,3 +258,29 @@ menupopup {
 #urlbar:not([focused]) #urlbar-input::placeholder {
   text-align: center !important;
 }
+
+/* ============ Scheme-aware colors for toolbar icons and urlbar ============ */
+:root {
+  --zw-fg: light-dark(#15141a, #fbfbfe);
+  --zw-field-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+}
+
+#nav-bar,
+#urlbar,
+#urlbar-container {
+  --toolbar-color: var(--zw-fg) !important;
+  --toolbarbutton-icon-fill: var(--zw-fg) !important;
+  --toolbar-field-color: var(--zw-fg) !important;
+  --toolbar-field-focus-color: var(--zw-fg) !important;
+  --urlbar-box-bgcolor: var(--zw-field-bg) !important;
+  --toolbar-field-background-color: var(--zw-field-bg) !important;
+}
+
+#urlbar-background {
+  background-color: var(--zw-field-bg) !important;
+}
+#urlbar .urlbar-icon,
+#nav-bar toolbarbutton .toolbarbutton-icon {
+  fill: var(--zw-fg) !important;
+  color: var(--zw-fg) !important;
+}
