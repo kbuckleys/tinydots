@@ -283,7 +283,14 @@ menupopup {
   transition: opacity 150ms ease !important;
 }
 
-#nav-bar:hover #back-button,
-#nav-bar:hover #forward-button {
+:is(#nav-bar:hover, :root:has(#backForwardMenu[state="open"])) :is(#back-button, #forward-button),
+#back-button[open],
+#forward-button[open] {
   opacity: 1 !important;
+}
+
+:is(#nav-bar:hover, :root:has(#backForwardMenu[state="open"])) :is(#back-button, #forward-button)[disabled],
+#back-button[open][disabled],
+#forward-button[open][disabled] {
+  opacity: 0.4 !important;
 }
