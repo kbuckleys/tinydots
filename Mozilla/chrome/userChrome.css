@@ -31,15 +31,6 @@
   --tab-selected-outline-color: transparent !important;
 }
 
-/* ============ Nav buttons: back/forward hidden; reload hidden in the nav bar only ============ */
-#back-button,
-#forward-button {
-  display: none !important;
-}
-#nav-bar-customization-target > #stop-reload-button {
-  display: none !important;
-}
-
 /* ============ Reload/stop button inside the urlbar (only used if moved there by a script) ============ */
 #urlbar #stop-reload-button {
   display: flex !important;
