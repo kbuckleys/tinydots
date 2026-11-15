@@ -275,3 +275,15 @@ menupopup {
   fill: var(--zw-fg) !important;
   color: var(--zw-fg) !important;
 }
+
+/* ============ Autohide navigation controls ============ */
+#back-button,
+#forward-button {
+  opacity: 0 !important;
+  transition: opacity 150ms ease !important;
+}
+
+#nav-bar:hover #back-button,
+#nav-bar:hover #forward-button {
+  opacity: 1 !important;
+}
