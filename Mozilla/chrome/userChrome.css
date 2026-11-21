@@ -380,6 +380,28 @@ menupopup {
   font-weight: bold !important;
 }
 
+/* Bold text in the other urlbar chips (site identity like "Firefox", permissions, tracking protection, result label, container, translations, private browsing) */
+:is(
+  #identity-box,
+  #notification-popup-box,
+  #tracking-protection-icon-container,
+  #urlbar-label-box,
+  #userContext-icons,
+  #translations-button,
+  #private-browsing-indicator-with-label
+),
+:is(
+  #identity-box,
+  #notification-popup-box,
+  #tracking-protection-icon-container,
+  #urlbar-label-box,
+  #userContext-icons,
+  #translations-button,
+  #private-browsing-indicator-with-label
+) * {
+  font-weight: bold !important;
+}
+
 /* ============ Bookmark ribbon: hollow = not bookmarked, filled = bookmarked ============ */
 /* Colored by --zw-fg, so it matches the other toolbar icons in light and dark mode */
 
