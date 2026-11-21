@@ -256,9 +256,18 @@ menupopup {
   --zw-field-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
 }
 
+/* Defined once on the toolbox so nav bar, bookmarks bar, search bar, etc. all inherit */
+#navigator-toolbox {
+  --toolbar-color: var(--zw-fg);
+  --toolbarbutton-icon-fill: var(--zw-fg);
+  --toolbar-field-color: var(--zw-fg);
+  --toolbar-field-focus-color: var(--zw-fg);
+}
+
 #nav-bar,
 #urlbar,
-#urlbar-container {
+#urlbar-container,
+#searchbar {
   --toolbar-color: var(--zw-fg) !important;
   --toolbarbutton-icon-fill: var(--zw-fg) !important;
   --toolbar-field-color: var(--zw-fg) !important;
@@ -267,13 +276,65 @@ menupopup {
   --toolbar-field-background-color: var(--zw-field-bg) !important;
 }
 
+/* Bookmarks toolbar text and icons */
+#PersonalToolbar,
+#PersonalToolbar .bookmark-item,
+#PersonalToolbar .toolbarbutton-text {
+  color: var(--zw-fg);
+}
+
 #urlbar-background {
   background-color: var(--zw-field-bg) !important;
 }
-#urlbar .urlbar-icon,
+/* Excludes the starred bookmark icon so it keeps its blue active state */
+#urlbar .urlbar-icon:not(#star-button-box[starred] .urlbar-icon),
 #nav-bar toolbarbutton .toolbarbutton-icon {
   fill: var(--zw-fg) !important;
   color: var(--zw-fg) !important;
+}
+
+/* Downloads button: icon is a background image tinted via context properties */
+#downloads-button,
+#downloads-indicator-anchor,
+#downloads-indicator-icon,
+#downloads-indicator-progress-area,
+#downloads-indicator-animationbox {
+  color: var(--zw-fg) !important;
+  fill: var(--zw-fg) !important;
+  -moz-context-properties: fill, fill-opacity !important;
+}
+
+/* Every child and state of the button, including the first-appearance animation */
+#downloads-button *,
+#downloads-button[animate] *,
+#downloads-button[attention] *,
+#downloads-button:not([hidden]) #downloads-indicator-icon,
+#downloads-button .toolbarbutton-icon,
+#downloads-button .toolbarbutton-badge-stack {
+  color: var(--zw-fg) !important;
+  fill: var(--zw-fg) !important;
+  -moz-context-properties: fill, fill-opacity, stroke !important;
+  stroke: var(--zw-fg);
+}
+
+/* Progress ring while a download is running */
+#downloads-indicator-progress-inner {
+  --download-progress-fill: var(--zw-fg);
+  color: var(--zw-fg) !important;
+}
+#downloads-indicator-progress-outer {
+  --download-progress-bgcolor: color-mix(in srgb, var(--zw-fg) 25%, transparent);
+}
+
+/* Extension toolbar buttons: tint monochrome icons; remove if an icon looks wrong */
+.webextension-browser-action .toolbarbutton-icon {
+  -moz-context-properties: fill, fill-opacity !important;
+  fill: var(--zw-fg);
+}
+
+/* Urlbar dropdown text */
+.urlbarView {
+  color: var(--zw-fg);
 }
 
 /* ============ Autohide navigation controls ============ */
