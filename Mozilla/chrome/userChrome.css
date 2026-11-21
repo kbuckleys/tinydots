@@ -242,12 +242,27 @@ menupopup {
   display: none !important;
 }
 
-/* ============ Center urlbar text when not focused ============ */
-#urlbar:not([focused]) #urlbar-input {
+/* ============ Irlbar Enhancemenets ============ */
+#urlbar-input {
+  text-align: left !important;
+}
+
+#urlbar:not([usertyping]) #urlbar-input {
   text-align: center !important;
 }
-#urlbar:not([focused]) #urlbar-input::placeholder {
-  text-align: center !important;
+
+#urlbar-input {
+  padding-inline: 12px !important;
+  font-size: calc(1em + 1px) !important;
+}
+
+/* ============ Slightly darken inactive tab color in light mode ============ */
+@media (prefers-color-scheme: light) {
+  .tabbrowser-tab:not([selected]) .tab-background,
+  .tabbrowser-tab:not([selected]):hover .tab-background,
+  .tabbrowser-tab:not([selected]):hover > .tab-stack > .tab-background {
+    background-color: rgba(0, 0, 0, 0.07) !important;
+  }
 }
 
 /* ============ Scheme-aware colors for toolbar icons and urlbar ============ */
@@ -354,4 +369,16 @@ menupopup {
 #back-button[open][disabled],
 #forward-button[open][disabled] {
   opacity: 0.4 !important;
+}
+
+/* ============ Hide search dropdown button ============ */
+#urlbar-searchmode-switcher,
+#urlbar-searchmode-switcher-container,
+#searchmode-switcher,
+#searchmode-switcher-icon,
+#searchmode-switcher-dropmarker,
+#searchmode-switcher-title,
+.searchmode-switcher,
+.urlbar-searchmode-switcher {
+  display: none !important;
 }
