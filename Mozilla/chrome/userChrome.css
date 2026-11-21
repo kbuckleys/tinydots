@@ -1,10 +1,11 @@
 /* ┌─┐┌─┐┌┐┌┬ ┬┌─┐┬─┐┬┌─┌─┐
-/* ┌─┘├┤ │││││││ │├┬┘├┴┐└─┐
-/* └─┘└─┘┘└┘└┴┘└─┘┴└─┴ ┴└─┘
-/* https://github.com/kbuckleys/
+   ┌─┘├┤ │││││││ │├┬┘├┴┐└─┐
+   └─┘└─┘┘└┘└┴┘└─┘┴└─┴ ┴└─┘
+   https://github.com/kbuckleys/ */
 
-/* ============ Variables: square corners, no tab padding, no tab hover ============ */
+/* ============ Variables ============ */
 :root {
+  /* Square corners */
   --border-radius-xsmall: 0 !important;
   --border-radius-small: 0 !important;
   --border-radius-medium: 0 !important;
@@ -12,11 +13,11 @@
   --border-radius-xlarge: 0 !important;
   --tab-border-radius: 0 !important;
 
+  /* No tab padding, no tab hover */
   --tab-block-margin: 0px !important;
   --tab-inline-padding: 0px !important;
   --tab-inner-inline-margin: 0px !important;
   --toolbarbutton-inner-padding: 0px;
-
   --tab-hover-background-color: transparent !important;
 
   /* Tab divider: mid-gray with some transparency, readable on dark and light themes */
@@ -29,6 +30,10 @@
   --tabs-navbar-shadow-size: 0px !important;
   --tabs-border-color: transparent !important;
   --tab-selected-outline-color: transparent !important;
+
+  /* Scheme-aware colors */
+  --zw-fg: light-dark(#15141a, #fbfbfe);
+  --zw-field-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
 }
 
 /* ============ Reload/stop button inside the urlbar (only used if moved there by a script) ============ */
@@ -58,7 +63,7 @@ menupopup {
   border-radius: 0 !important;
 }
 
-/* ============ Remove close buttons, favicons, media icons, new-tab button, placeholders ============ */
+/* ============ Remove close buttons, favicons, media icons, new-tab button, window buttons ============ */
 .tab-close-button,
 .tab-icon-stack,
 .tab-icon-image,
@@ -118,9 +123,6 @@ menupopup {
 .tab-background {
   margin: 0 !important;
 }
-.tab-content {
-  padding: 0 !important;
-}
 
 /* ============ Tabs span the full width (every wrapper fills the toolbar) ============ */
 #TabsToolbar {
@@ -155,6 +157,7 @@ menupopup {
   display: flex !important;
   justify-content: center !important;
   width: 100% !important;
+  padding: 0 !important;
 }
 .tab-label-container {
   display: flex !important;
@@ -191,11 +194,8 @@ menupopup {
 }
 
 /* ============ No hover effect on tabs ============ */
-.tabbrowser-tab:not([selected]):hover .tab-background,
-.tabbrowser-tab:not([selected]):hover > .tab-stack > .tab-background {
+.tabbrowser-tab:not([selected]):hover .tab-background {
   background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
   box-shadow: none !important;
   outline: none !important;
   border-color: transparent !important;
@@ -215,22 +215,15 @@ menupopup {
   border-inline-start-color: transparent !important;
 }
 
-/* ============ Bolder urlbar text when not focused ============ */
-#urlbar:not([focused]) #urlbar-input {
-  font-weight: 600 !important;
-}
-
 /* ============ No border between tab bar and nav bar ============ */
-#TabsToolbar {
-  border-bottom: 0 !important;
+#TabsToolbar,
+#nav-bar {
   box-shadow: none !important;
 }
 #nav-bar {
   border-top: 0 !important;
-  box-shadow: none !important;
 }
-.tab-background,
-.tabbrowser-tab[selected] .tab-background {
+.tab-background {
   outline: 0 !important;
   box-shadow: none !important;
 }
@@ -240,42 +233,28 @@ menupopup {
   visibility: collapse !important;
 }
 
-/* Hide tab media (playing/muted) indicators */
-.tab-audio-button,
-.tab-icon-overlay,
-.tab-secondary-label {
-  display: none !important;
-}
-
-/* ============ Irlbar Enhancemenets ============ */
-#urlbar-input {
-  text-align: left !important;
-}
-
-#urlbar:not([usertyping]) #urlbar-input {
-  text-align: center !important;
-}
-
-#urlbar-input {
-  padding-inline: 12px !important;
-  font-size: calc(1em + 1px) !important;
-}
-
 /* ============ Slightly darken inactive tab color in light mode ============ */
 @media (prefers-color-scheme: light) {
   .tabbrowser-tab:not([selected]) .tab-background,
-  .tabbrowser-tab:not([selected]):hover .tab-background,
-  .tabbrowser-tab:not([selected]):hover > .tab-stack > .tab-background {
+  .tabbrowser-tab:not([selected]):hover .tab-background {
     background-color: rgba(0, 0, 0, 0.07) !important;
   }
 }
 
-/* ============ Scheme-aware colors for toolbar icons and urlbar ============ */
-:root {
-  --zw-fg: light-dark(#15141a, #fbfbfe);
-  --zw-field-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+/* ============ Urlbar ============ */
+#urlbar-input {
+  text-align: left !important;
+  padding-inline: 12px !important;
+  font-size: calc(1em + 1px) !important;
+}
+#urlbar:not([usertyping]) #urlbar-input {
+  text-align: center !important;
+}
+#urlbar:not([focused]) #urlbar-input {
+  font-weight: 600 !important;
 }
 
+/* ============ Scheme-aware colors for toolbar icons and urlbar ============ */
 /* Defined once on the toolbox so nav bar, bookmarks bar, search bar, etc. all inherit */
 #navigator-toolbox {
   --toolbar-color: var(--zw-fg);
@@ -306,6 +285,7 @@ menupopup {
 #urlbar-background {
   background-color: var(--zw-field-bg) !important;
 }
+
 /* Excludes the starred bookmark icon so it keeps its blue active state */
 #urlbar .urlbar-icon:not(#star-button-box[starred] .urlbar-icon),
 #nav-bar toolbarbutton .toolbarbutton-icon {
@@ -313,34 +293,19 @@ menupopup {
   color: var(--zw-fg) !important;
 }
 
-/* Downloads button: icon is a background image tinted via context properties */
+/* Downloads button: icon is a background image tinted via context properties.
+   The * covers every child and state, including the first-appearance animation. */
 #downloads-button,
-#downloads-indicator-anchor,
-#downloads-indicator-icon,
-#downloads-indicator-progress-area,
-#downloads-indicator-animationbox {
+#downloads-button * {
   color: var(--zw-fg) !important;
   fill: var(--zw-fg) !important;
-  -moz-context-properties: fill, fill-opacity !important;
-}
-
-/* Every child and state of the button, including the first-appearance animation */
-#downloads-button *,
-#downloads-button[animate] *,
-#downloads-button[attention] *,
-#downloads-button:not([hidden]) #downloads-indicator-icon,
-#downloads-button .toolbarbutton-icon,
-#downloads-button .toolbarbutton-badge-stack {
-  color: var(--zw-fg) !important;
-  fill: var(--zw-fg) !important;
-  -moz-context-properties: fill, fill-opacity, stroke !important;
   stroke: var(--zw-fg);
+  -moz-context-properties: fill, fill-opacity, stroke !important;
 }
 
 /* Progress ring while a download is running */
 #downloads-indicator-progress-inner {
   --download-progress-fill: var(--zw-fg);
-  color: var(--zw-fg) !important;
 }
 #downloads-indicator-progress-outer {
   --download-progress-bgcolor: color-mix(in srgb, var(--zw-fg) 25%, transparent);
@@ -389,48 +354,44 @@ menupopup {
 }
 
 /* ============ Bookmark ribbon: hollow = not bookmarked, filled = bookmarked ============ */
+/* Colored by --zw-fg, so it matches the other toolbar icons in light and dark mode */
 
-/* Not bookmarked, light toolbar */
-#star-button,
-#star-button .toolbarbutton-icon,
-#star-button-box .urlbar-icon {
-  list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='none' stroke='%2315141a' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+/* Not bookmarked: hollow */
+#star-button {
+  list-style-image: none !important;
+  background-color: var(--zw-fg) !important;
+  background-clip: content-box !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='none' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  mask-repeat: no-repeat !important;
+  mask-position: center !important;
+  mask-size: contain !important;
+  mask-origin: content-box !important;
+  mask-clip: content-box !important;
 }
 
-/* Not bookmarked, dark toolbar */
-@media (-moz-toolbar-prefers-color-scheme: dark) {
-  #star-button,
-  #star-button .toolbarbutton-icon,
-  #star-button-box .urlbar-icon {
-    list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='none' stroke='%23fbfbfe' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
-  }
-}
-
-/* Bookmarked, light toolbar */
+/* Bookmarked: filled */
 #star-button[starred],
-#star-button[starred] .toolbarbutton-icon,
-#star-button-box[starred] #star-button,
-#star-button-box[starred] #star-button .toolbarbutton-icon,
-#star-button-box[starred] .urlbar-icon,
-#urlbar [starred] .urlbar-icon,
-#urlbar [starred] > #star-button {
-  list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='%2315141a' stroke='%2315141a' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+#star-button-box[starred] #star-button {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='black' stroke='black' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
 }
 
-/* Bookmarked, dark toolbar */
-@media (-moz-toolbar-prefers-color-scheme: dark) {
-  #star-button[starred],
-  #star-button[starred] .toolbarbutton-icon,
-  #star-button-box[starred] #star-button,
-  #star-button-box[starred] #star-button .toolbarbutton-icon,
-  #star-button-box[starred] .urlbar-icon,
-  #urlbar [starred] .urlbar-icon,
-  #urlbar [starred] > #star-button {
-    list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='%23fbfbfe' stroke='%23fbfbfe' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
-  }
-}
-
-/* ============ Zoom indicator first in the urlbar's right-hand icons ============ */
+/* ============ Zoom indicator: first in the urlbar's right-hand icons, chip on hover ============ */
 #urlbar-zoom-button {
   order: -1 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: background-color 150ms ease !important;
+}
+#urlbar-zoom-button,
+#urlbar-zoom-button * {
+  font-weight: bold !important;
+}
+#urlbar-zoom-button:hover {
+  background-color: rgba(128, 128, 128, 0.2) !important;
+}
+#urlbar-zoom-button:hover:active,
+#urlbar-zoom-button[open] {
+  background-color: rgba(128, 128, 128, 0.35) !important;
 }
