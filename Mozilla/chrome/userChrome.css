@@ -215,6 +215,11 @@ menupopup {
   border-inline-start-color: transparent !important;
 }
 
+/* ============ Bolder urlbar text when not focused ============ */
+#urlbar:not([focused]) #urlbar-input {
+  font-weight: 600 !important;
+}
+
 /* ============ No border between tab bar and nav bar ============ */
 #TabsToolbar {
   border-bottom: 0 !important;
