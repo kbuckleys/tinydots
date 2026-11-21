@@ -253,6 +253,10 @@ menupopup {
 #urlbar:not([focused]) #urlbar-input {
   font-weight: 600 !important;
 }
+/* Center anything unfocused, including search queries (usertyping can stay set after a search) */
+#urlbar:not([focused]) #urlbar-input {
+  text-align: center !important;
+}
 
 /* ============ Scheme-aware colors for toolbar icons and urlbar ============ */
 /* Defined once on the toolbox so nav bar, bookmarks bar, search bar, etc. all inherit */
@@ -341,16 +345,39 @@ menupopup {
   opacity: 0.4 !important;
 }
 
-/* ============ Hide search dropdown button ============ */
-#urlbar-searchmode-switcher,
-#urlbar-searchmode-switcher-container,
-#searchmode-switcher,
-#searchmode-switcher-icon,
-#searchmode-switcher-dropmarker,
-#searchmode-switcher-title,
-.searchmode-switcher,
-.urlbar-searchmode-switcher {
+/* ============ Hide search dropdown button (but keep search chips) ============ */
+#urlbar:not([searchmode]) :is(
+  #urlbar-searchmode-switcher,
+  #urlbar-searchmode-switcher-container,
+  #searchmode-switcher,
+  .searchmode-switcher,
+  .urlbar-searchmode-switcher
+) {
   display: none !important;
+}
+
+/* Dropmarker arrow is never wanted */
+#searchmode-switcher-dropmarker {
+  display: none !important;
+}
+
+/* Bold text in search chips */
+/* Targets the chip containers and every descendant, since the label sets its own weight */
+#urlbar[searchmode] :is(
+  #urlbar-searchmode-switcher,
+  #searchmode-switcher,
+  .searchmode-switcher,
+  .urlbar-searchmode-switcher,
+  #urlbar-search-mode-indicator
+),
+#urlbar[searchmode] :is(
+  #urlbar-searchmode-switcher,
+  #searchmode-switcher,
+  .searchmode-switcher,
+  .urlbar-searchmode-switcher,
+  #urlbar-search-mode-indicator
+) * {
+  font-weight: bold !important;
 }
 
 /* ============ Bookmark ribbon: hollow = not bookmarked, filled = bookmarked ============ */
