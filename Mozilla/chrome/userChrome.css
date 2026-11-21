@@ -387,3 +387,50 @@ menupopup {
 .urlbar-searchmode-switcher {
   display: none !important;
 }
+
+/* ============ Bookmark ribbon: hollow = not bookmarked, filled = bookmarked ============ */
+
+/* Not bookmarked, light toolbar */
+#star-button,
+#star-button .toolbarbutton-icon,
+#star-button-box .urlbar-icon {
+  list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='none' stroke='%2315141a' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
+/* Not bookmarked, dark toolbar */
+@media (-moz-toolbar-prefers-color-scheme: dark) {
+  #star-button,
+  #star-button .toolbarbutton-icon,
+  #star-button-box .urlbar-icon {
+    list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='none' stroke='%23fbfbfe' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  }
+}
+
+/* Bookmarked, light toolbar */
+#star-button[starred],
+#star-button[starred] .toolbarbutton-icon,
+#star-button-box[starred] #star-button,
+#star-button-box[starred] #star-button .toolbarbutton-icon,
+#star-button-box[starred] .urlbar-icon,
+#urlbar [starred] .urlbar-icon,
+#urlbar [starred] > #star-button {
+  list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='%2315141a' stroke='%2315141a' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
+/* Bookmarked, dark toolbar */
+@media (-moz-toolbar-prefers-color-scheme: dark) {
+  #star-button[starred],
+  #star-button[starred] .toolbarbutton-icon,
+  #star-button-box[starred] #star-button,
+  #star-button-box[starred] #star-button .toolbarbutton-icon,
+  #star-button-box[starred] .urlbar-icon,
+  #urlbar [starred] .urlbar-icon,
+  #urlbar [starred] > #star-button {
+    list-style-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M4 2h8a1 1 0 0 1 1 1v11l-5-3-5 3V3a1 1 0 0 1 1-1z' fill='%23fbfbfe' stroke='%23fbfbfe' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+  }
+}
+
+/* ============ Zoom indicator first in the urlbar's right-hand icons ============ */
+#urlbar-zoom-button {
+  order: -1 !important;
+}
