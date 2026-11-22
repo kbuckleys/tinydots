@@ -64,25 +64,15 @@ menupopup {
 }
 
 /* ============ Remove close buttons, favicons, media icons, new-tab button, window buttons ============ */
+/* (children of hidden parents, e.g. .tab-icon-image or .titlebar-close, don't need their own entries) */
 .tab-close-button,
 .tab-icon-stack,
-.tab-icon-image,
-.tab-throbber,
 .tab-audio-button,
-.tab-icon-overlay,
 .tab-secondary-label,
-#tabs-newtab-button,
-#new-tab-button,
 .tabs-newtab-button,
 #tabbrowser-arrowscrollbox-periphery,
-#alltabs-button,
 .titlebar-spacer,
-#TabsToolbar .titlebar-buttonbox-container,
-#TabsToolbar .titlebar-buttonbox,
-#TabsToolbar .titlebar-min,
-#TabsToolbar .titlebar-max,
-#TabsToolbar .titlebar-restore,
-#TabsToolbar .titlebar-close {
+#TabsToolbar .titlebar-buttonbox-container {
   display: none !important;
 }
 
@@ -118,9 +108,6 @@ menupopup {
 }
 .tabbrowser-tab {
   padding: 0 !important;
-  margin: 0 !important;
-}
-.tab-background {
   margin: 0 !important;
 }
 
@@ -224,6 +211,7 @@ menupopup {
   border-top: 0 !important;
 }
 .tab-background {
+  margin: 0 !important;
   outline: 0 !important;
   box-shadow: none !important;
 }
@@ -250,23 +238,15 @@ menupopup {
 #urlbar:not([usertyping]) #urlbar-input {
   text-align: center !important;
 }
-#urlbar:not([focused]) #urlbar-input {
-  font-weight: 600 !important;
-}
 /* Center anything unfocused, including search queries (usertyping can stay set after a search) */
 #urlbar:not([focused]) #urlbar-input {
+  font-weight: 600 !important;
   text-align: center !important;
 }
 
 /* ============ Scheme-aware colors for toolbar icons and urlbar ============ */
 /* Defined once on the toolbox so nav bar, bookmarks bar, search bar, etc. all inherit */
-#navigator-toolbox {
-  --toolbar-color: var(--zw-fg);
-  --toolbarbutton-icon-fill: var(--zw-fg);
-  --toolbar-field-color: var(--zw-fg);
-  --toolbar-field-focus-color: var(--zw-fg);
-}
-
+#navigator-toolbox,
 #nav-bar,
 #urlbar,
 #urlbar-container,
@@ -345,6 +325,80 @@ menupopup {
   opacity: 0.4 !important;
 }
 
+/* ============ Back/forward glyphs: plain < and > chevrons (no tail line) ============ */
+/* Same mask technique as the bookmark ribbon: the glyph is drawn in --zw-fg, so it follows light/dark mode.
+   Opacity (autohide + disabled dimming) is set on the buttons themselves and still applies. */
+#back-button,
+#forward-button,
+#back-button .toolbarbutton-icon,
+#forward-button .toolbarbutton-icon {
+  list-style-image: none !important;
+}
+#back-button .toolbarbutton-icon,
+#forward-button .toolbarbutton-icon {
+  width: 17px !important;
+  height: 17px !important;
+  padding: 0 !important;
+  background-color: var(--zw-fg) !important;
+  fill: transparent !important;
+  mask-repeat: no-repeat !important;
+  mask-position: center !important;
+  mask-size: contain !important;
+}
+#back-button .toolbarbutton-icon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M10 3L5 8l5 5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+#forward-button .toolbarbutton-icon {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M6 3l5 5-5 5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") !important;
+}
+
+/* Hover/pressed states: the icon is now a mask, so any native background on it would be masked into the
+   glyph shape. Draw the states on the buttons themselves instead.
+   The button is a fixed-height chip, vertically centered (not stretched to the nav bar's full height),
+   with horizontal inner padding. Tweak --zw-nav-chip-height / --zw-nav-chip-padding to taste. */
+#back-button,
+#forward-button {
+  --zw-nav-chip-height: 28px;
+  --zw-nav-chip-padding: 6px;
+  align-self: center !important;
+  height: var(--zw-nav-chip-height) !important;
+  padding-block: 0 !important;
+  padding-inline: var(--zw-nav-chip-padding) !important;
+  margin-block: 0 !important;
+}
+:is(#back-button, #forward-button):not([disabled]):hover {
+  background-color: var(--toolbarbutton-hover-background, rgba(128, 128, 128, 0.2)) !important;
+}
+:is(#back-button, #forward-button):not([disabled]):hover:active,
+:is(#back-button, #forward-button)[open]:not([disabled]) {
+  background-color: var(--toolbarbutton-active-background, rgba(128, 128, 128, 0.35)) !important;
+}
+
+/* ============ Account button: generic person icon instead of the avatar ============ */
+/* Clear the avatar wherever Firefox draws it (variable, button, badge stack or icon) so only the glyph below shows */
+#fxa-toolbar-menu-button {
+  --avatar-image-url: none !important;
+  list-style-image: none !important;
+  background-image: none !important;
+}
+#fxa-toolbar-menu-button .toolbarbutton-badge-stack {
+  list-style-image: none !important;
+  background-image: none !important;
+}
+#fxa-toolbar-menu-button .toolbarbutton-icon {
+  background-image: none !important;
+  list-style-image: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 0 !important;
+  background-color: var(--zw-fg) !important;
+  fill: transparent !important;
+  mask-repeat: no-repeat !important;
+  mask-position: center !important;
+  mask-size: contain !important;
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='5.25' r='2.75' fill='none' stroke='black' stroke-width='1.5'/%3E%3Cpath d='M2.75 14c.5-3 2.6-4.5 5.25-4.5s4.75 1.5 5.25 4.5' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+}
+
 /* ============ Hide search dropdown button (but keep search chips) ============ */
 #urlbar:not([searchmode]) :is(
   #urlbar-searchmode-switcher,
@@ -361,43 +415,38 @@ menupopup {
   display: none !important;
 }
 
-/* Bold text in search chips */
-/* Targets the chip containers and every descendant, since the label sets its own weight */
-#urlbar[searchmode] :is(
-  #urlbar-searchmode-switcher,
-  #searchmode-switcher,
-  .searchmode-switcher,
-  .urlbar-searchmode-switcher,
-  #urlbar-search-mode-indicator
-),
-#urlbar[searchmode] :is(
-  #urlbar-searchmode-switcher,
-  #searchmode-switcher,
-  .searchmode-switcher,
-  .urlbar-searchmode-switcher,
-  #urlbar-search-mode-indicator
-) * {
-  font-weight: bold !important;
-}
-
-/* Bold text in the other urlbar chips (site identity like "Firefox", permissions, tracking protection, result label, container, translations, private browsing) */
+/* Bold text in urlbar chips (search mode, site identity like "Firefox", permissions, tracking protection,
+   result label, container, translations, private browsing, zoom). Also targets every descendant,
+   since labels can set their own weight. */
 :is(
+  #urlbar-searchmode-switcher,
+  #searchmode-switcher,
+  .searchmode-switcher,
+  .urlbar-searchmode-switcher,
+  #urlbar-search-mode-indicator,
   #identity-box,
   #notification-popup-box,
   #tracking-protection-icon-container,
   #urlbar-label-box,
   #userContext-icons,
   #translations-button,
-  #private-browsing-indicator-with-label
+  #private-browsing-indicator-with-label,
+  #urlbar-zoom-button
 ),
 :is(
+  #urlbar-searchmode-switcher,
+  #searchmode-switcher,
+  .searchmode-switcher,
+  .urlbar-searchmode-switcher,
+  #urlbar-search-mode-indicator,
   #identity-box,
   #notification-popup-box,
   #tracking-protection-icon-container,
   #urlbar-label-box,
   #userContext-icons,
   #translations-button,
-  #private-browsing-indicator-with-label
+  #private-browsing-indicator-with-label,
+  #urlbar-zoom-button
 ) * {
   font-weight: bold !important;
 }
@@ -432,10 +481,6 @@ menupopup {
   box-shadow: none !important;
   outline: none !important;
   transition: background-color 150ms ease !important;
-}
-#urlbar-zoom-button,
-#urlbar-zoom-button * {
-  font-weight: bold !important;
 }
 #urlbar-zoom-button:hover {
   background-color: rgba(128, 128, 128, 0.2) !important;
