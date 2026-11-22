@@ -43,6 +43,7 @@
   --urlbar-border-radius: 6px !important;
   --urlbarview-border-radius: 6px !important;
   --button-border-radius: 6px !important;
+  --urlbar-icon-border-radius: 6px !important;
 }
 
 /* The urlbar sets these on itself, so :root alone isn't enough */
@@ -51,6 +52,7 @@
   --urlbar-border-radius: 6px !important;
   --urlbarview-border-radius: 6px !important;
   --button-border-radius: 6px !important;
+  --urlbar-icon-border-radius: 6px !important;
 }
 
 /* ============ Square corners (fallbacks) ============ */
@@ -69,6 +71,33 @@ menupopup {
 /* The urlbar is the exception */
 #urlbar #urlbar-background,
 #urlbar-input-container {
+  border-radius: var(--urlbar-border-radius) !important;
+}
+
+/* Rounded chips, globally: every hover/pressed chip in the urlbar (page actions such as reader mode,
+   picture-in-picture, bookmark and extension icons; site info, permission and tracking chips; zoom;
+   any other button) and every nav bar button (back/forward, downloads, extensions, menu...) uses the
+   urlbar's radius. The chip's background can be drawn on the matched element or on a child inside it,
+   so the radius is applied to both (a radius is invisible on anything without a background or border). */
+#urlbar :is(
+  .urlbar-page-action,
+  .urlbar-addon-page-action,
+  .urlbar-icon-wrapper,
+  .identity-box-button,
+  #identity-box,
+  #tracking-protection-icon-container,
+  #notification-popup-box,
+  #urlbar-zoom-button,
+  toolbarbutton,
+  button,
+  [role="button"]
+) {
+  &,
+  & * {
+    border-radius: var(--urlbar-border-radius) !important;
+  }
+}
+#nav-bar .toolbarbutton-1 {
   border-radius: var(--urlbar-border-radius) !important;
 }
 
@@ -348,7 +377,6 @@ menupopup {
   --zw-nav-chip-height: 28px;
   --zw-nav-chip-padding: 6px;
   align-self: center !important;
-  border-radius: var(--urlbar-border-radius) !important;
   height: var(--zw-nav-chip-height) !important;
   padding-block: 0 !important;
   padding-inline: var(--zw-nav-chip-padding) !important;
@@ -479,7 +507,6 @@ menupopup {
 /* ============ Zoom indicator: first in the urlbar's right-hand icons, chip on hover ============ */
 #urlbar-zoom-button {
   order: -1 !important;
-  border-radius: var(--urlbar-border-radius) !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
