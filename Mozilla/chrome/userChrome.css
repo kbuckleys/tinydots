@@ -489,3 +489,49 @@ menupopup {
 #urlbar-zoom-button[open] {
   background-color: rgba(128, 128, 128, 0.35) !important;
 }
+
+/* ============ Slightly rounded urlbar ============ */
+:root,
+#urlbar,
+#urlbar-container {
+  --urlbar-border-radius: 6px !important;
+  --urlbarview-border-radius: 6px !important;
+  --button-border-radius: 6px !important;
+}
+
+#urlbar #urlbar-background,
+#urlbar-input-container {
+  border-radius: var(--urlbar-border-radius) !important;
+}
+
+/* ============ Taller urlbar and nav bar (explicit heights) ============ */
+:root {
+  --zw-urlbar-h: 32px;  /* urlbar height */
+  --zw-nav-pad: 6px;    /* space above and below the urlbar */
+
+  --urlbar-min-height: var(--zw-urlbar-h) !important;
+  --urlbar-height: var(--zw-urlbar-h) !important;
+  --urlbar-container-height: calc(var(--zw-urlbar-h) + 2 * var(--zw-nav-pad)) !important;
+}
+
+#nav-bar {
+  min-height: calc(var(--zw-urlbar-h) + 2 * var(--zw-nav-pad)) !important;
+}
+
+#urlbar-container {
+  box-sizing: border-box !important;
+  height: calc(var(--zw-urlbar-h) + 2 * var(--zw-nav-pad)) !important;
+  min-height: calc(var(--zw-urlbar-h) + 2 * var(--zw-nav-pad)) !important;
+  padding-block: var(--zw-nav-pad) !important;
+}
+
+#urlbar,
+#urlbar[breakout] {
+  height: var(--zw-urlbar-h) !important;
+  min-height: var(--zw-urlbar-h) !important;
+}
+
+#urlbar-input-container {
+  height: 100% !important;
+  min-height: 0 !important;
+}
