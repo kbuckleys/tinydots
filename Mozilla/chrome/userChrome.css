@@ -62,9 +62,7 @@
 .toolbarbutton-1,
 .browserContainer,
 #tabbrowser-tabpanels,
-#navigator-toolbox,
-panel,
-menupopup {
+#navigator-toolbox {
   border-radius: 0 !important;
 }
 
@@ -98,6 +96,34 @@ menupopup {
   }
 }
 #nav-bar .toolbarbutton-1 {
+  border-radius: var(--urlbar-border-radius) !important;
+}
+
+/* ============ Popups: the urlbar's radius ============ */
+/* Hamburger menu, context menus, dropdowns and subviews use the same radius as the urlbar and chips
+   (var(--urlbar-border-radius), 6px). Colors are left to Firefox. */
+menupopup,
+panel,
+.panel-subview-body,
+#appMenu-popup,
+#customizationui-widget-panel {
+  --panel-border-radius: var(--urlbar-border-radius) !important;
+  --arrowpanel-border-radius: var(--urlbar-border-radius) !important;
+  --arrowpanel-menuitem-border-radius: var(--urlbar-border-radius) !important;
+  --menuitem-border-radius: var(--urlbar-border-radius) !important;
+}
+
+menupopup::part(content),
+panel::part(content),
+.panel-arrowcontent {
+  border-radius: var(--urlbar-border-radius) !important;
+}
+
+/* Menu items */
+menuitem,
+menu,
+.subviewbutton,
+toolbarbutton.subviewbutton {
   border-radius: var(--urlbar-border-radius) !important;
 }
 

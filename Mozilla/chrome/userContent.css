@@ -1,0 +1,69 @@
+/* ┌─┐┌─┐┌┐┌┬ ┬┌─┐┬─┐┬┌─┌─┐
+   ┌─┘├┤ │││││││ │├┬┘├┴┐└─┐
+   └─┘└─┘┘└┘└┴┘└─┘┴└─┴ ┴└─┘
+   https://github.com/kbuckleys/ */
+
+/* Settings page (about:settings / about:preferences): same colors, rounding and monochrome accent as userChrome.css.
+   This file is userContent.css (not userChrome.css) and goes in the same chrome/ folder. */
+@-moz-document url-prefix("about:settings"), url-prefix("about:preferences") {
+
+  :root {
+    /* Same palette as userChrome.css */
+    --zw-fg: light-dark(#15141a, #fbfbfe);
+    --zw-bar-bg: light-dark(#f6f6f6, #2b2a33);
+    --zw-field-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+    --zw-radius: 6px; /* same as the urlbar */
+
+    /* Page and card colors: canvas = navbar color; cards/boxes = the urlbar's subtle field tone */
+    --background-color-canvas: var(--zw-bar-bg) !important;
+    --in-content-page-background: var(--zw-bar-bg) !important;
+    --background-color-box: var(--zw-field-bg) !important;
+    --in-content-box-background: var(--zw-field-bg) !important;
+    --border-color-card: transparent !important;
+    --box-shadow-card: none !important;
+
+    /* Monochrome accent instead of purple (buttons, selected nav item, focus rings, checkboxes) */
+    --color-accent-primary: var(--zw-fg) !important;
+    --color-accent-primary-hover: color-mix(in srgb, var(--zw-fg) 80%, transparent) !important;
+    --color-accent-primary-active: color-mix(in srgb, var(--zw-fg) 65%, transparent) !important;
+    --in-content-accent-color: var(--zw-fg) !important;
+    --focus-outline-color: var(--zw-fg) !important;
+
+    /* One radius everywhere (--border-radius-circle is left alone so avatars and toggles stay round) */
+    --border-radius-small: var(--zw-radius) !important;
+    --border-radius-medium: var(--zw-radius) !important;
+    --border-radius-large: var(--zw-radius) !important;
+    --button-border-radius: var(--zw-radius) !important;
+    --in-content-button-border-radius: var(--zw-radius) !important;
+  }
+
+  /* Pill-shaped controls (Sync now, nav items) take their pill from --border-radius-circle, so square that off
+     only on those elements. */
+  moz-button,
+  moz-page-nav,
+  moz-page-nav-button,
+  moz-input-search,
+  moz-card,
+  moz-box-group,
+  moz-box-item,
+  moz-box-button,
+  moz-box-link,
+  setting-group,
+  setting-control {
+    --border-radius-circle: var(--zw-radius) !important;
+    --border-radius-small: var(--zw-radius) !important;
+    --border-radius-medium: var(--zw-radius) !important;
+    --border-radius-large: var(--zw-radius) !important;
+    --button-border-radius: var(--zw-radius) !important;
+  }
+
+  /* Classic form controls */
+  button,
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea,
+  menulist,
+  .button {
+    border-radius: var(--zw-radius) !important;
+  }
+}
