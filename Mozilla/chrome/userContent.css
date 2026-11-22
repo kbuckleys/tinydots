@@ -3,33 +3,38 @@
    └─┘└─┘┘└┘└┴┘└─┘┴└─┴ ┴└─┘
    https://github.com/kbuckleys/ */
 
-/* Settings page (about:settings / about:preferences): same colors, rounding and monochrome accent as userChrome.css.
-   This file is userContent.css (not userChrome.css) and goes in the same chrome/ folder. */
-@-moz-document url-prefix("about:settings"), url-prefix("about:preferences") {
+/* All about: pages (settings, profiles, config, addons, logins...): colors come from the GTK theme via
+   CSS system colors, one radius everywhere, no hover effects.
+   This is userContent.css (not userChrome.css) and goes in the same chrome/ folder. */
+@-moz-document url-prefix("about:") {
 
   :root {
-    /* Same palette as userChrome.css */
-    --zw-fg: light-dark(#15141a, #fbfbfe);
-    --zw-bar-bg: light-dark(#f6f6f6, #2b2a33);
-    --zw-field-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
-    --zw-radius: 6px; /* same as the urlbar */
+    /* Palette from the GTK theme via system colors */
+    --zw-fg: CanvasText;
+    --zw-bar-bg: Canvas;
+    --zw-field-bg: color-mix(in srgb, CanvasText 7%, Canvas);
+    --zw-accent: CanvasText;      /* monochrome; use AccentColor to follow the GTK accent instead */
+    --zw-accent-fg: Canvas;       /* with AccentColor use AccentColorText */
+    --zw-radius: 6px;
 
-    /* Page and card colors: canvas = navbar color; cards/boxes = the urlbar's subtle field tone */
+    /* Page and card colors */
     --background-color-canvas: var(--zw-bar-bg) !important;
     --in-content-page-background: var(--zw-bar-bg) !important;
     --background-color-box: var(--zw-field-bg) !important;
     --in-content-box-background: var(--zw-field-bg) !important;
     --border-color-card: transparent !important;
     --box-shadow-card: none !important;
+    --text-color: var(--zw-fg) !important;
+    --in-content-page-color: var(--zw-fg) !important;
 
-    /* Monochrome accent instead of purple (buttons, selected nav item, focus rings, checkboxes) */
-    --color-accent-primary: var(--zw-fg) !important;
-    --color-accent-primary-hover: color-mix(in srgb, var(--zw-fg) 80%, transparent) !important;
-    --color-accent-primary-active: color-mix(in srgb, var(--zw-fg) 65%, transparent) !important;
-    --in-content-accent-color: var(--zw-fg) !important;
-    --focus-outline-color: var(--zw-fg) !important;
+    /* Accent (buttons, selected nav item, focus rings, checkboxes) */
+    --color-accent-primary: var(--zw-accent) !important;
+    --color-accent-primary-active: var(--zw-accent) !important;
+    --in-content-accent-color: var(--zw-accent) !important;
+    --in-content-primary-button-text-color: var(--zw-accent-fg) !important;
+    --focus-outline-color: var(--zw-accent) !important;
 
-    /* One radius everywhere (--border-radius-circle is left alone so avatars and toggles stay round) */
+    /* One radius everywhere */
     --border-radius-small: var(--zw-radius) !important;
     --border-radius-medium: var(--zw-radius) !important;
     --border-radius-large: var(--zw-radius) !important;
@@ -37,8 +42,7 @@
     --in-content-button-border-radius: var(--zw-radius) !important;
   }
 
-  /* Pill-shaped controls (Sync now, nav items) take their pill from --border-radius-circle, so square that off
-     only on those elements. */
+  /* Components that bake pill shapes into --border-radius-circle */
   moz-button,
   moz-page-nav,
   moz-page-nav-button,
@@ -57,6 +61,64 @@
     --button-border-radius: var(--zw-radius) !important;
   }
 
+  /* Hover = resting state. Set on :root and on the components, because components can redefine
+     these tokens on their own host element, which beats the inherited value. */
+  :root,
+  moz-button,
+  moz-page-nav,
+  moz-page-nav-button,
+  moz-input-search,
+  moz-card,
+  moz-box-group,
+  moz-box-item,
+  moz-box-button,
+  moz-box-link,
+  moz-toggle,
+  moz-checkbox,
+  moz-radio,
+  moz-select,
+  setting-group,
+  setting-control {
+    --button-background-color-hover: transparent !important;
+    --button-background-color-ghost-hover: transparent !important;
+    --button-background-color-primary-hover: var(--zw-accent) !important;
+    --button-text-color-hover: inherit !important;
+    --button-text-color-ghost-hover: inherit !important;
+    --button-border-color-hover: currentColor !important;
+    --background-color-interactive-hover: transparent !important;
+    --color-accent-primary-hover: var(--zw-accent) !important;
+    --in-content-button-background-hover: transparent !important;
+    --in-content-button-text-color-hover: inherit !important;
+    --in-content-button-border-color-hover: currentColor !important;
+    --in-content-item-hover: transparent !important;
+    --in-content-item-hover-text: inherit !important;
+
+    /* Settings sidebar items: hover looks like rest (these are the tokens moz-page-nav-button reads) */
+    --page-nav-button-background-color-hover: var(--page-nav-button-background-color) !important;
+    --page-nav-button-background-color-active: var(--page-nav-button-background-color) !important;
+    --page-nav-button-text-color-hover: var(--page-nav-button-text-color) !important;
+    --page-nav-button-text-color-active: var(--page-nav-button-text-color) !important;
+  }
+
+  /* Selected sidebar item: same highlight whether hovered or not */
+  moz-page-nav-button[selected],
+  moz-page-nav-button[aria-selected="true"],
+  moz-page-nav-button[aria-current] {
+    --page-nav-button-background-color-selected: var(--zw-accent) !important;
+    --page-nav-button-background-color-hover: var(--zw-accent) !important;
+    --page-nav-button-background-color-active: var(--zw-accent) !important;
+    --page-nav-button-text-color-selected: var(--zw-accent-fg) !important;
+    --page-nav-button-text-color-hover: var(--zw-accent-fg) !important;
+    --page-nav-button-text-color-active: var(--zw-accent-fg) !important;
+    --button-background-color-ghost-hover: var(--zw-accent) !important;
+    --button-text-color-ghost-hover: var(--zw-accent-fg) !important;
+  }
+
+  /* No transitions, so nothing animates on hover */
+  *, *::before, *::after {
+    transition: none !important;
+  }
+
   /* Classic form controls */
   button,
   input:not([type="checkbox"]):not([type="radio"]),
@@ -65,5 +127,13 @@
   menulist,
   .button {
     border-radius: var(--zw-radius) !important;
+  }
+
+  /* Classic controls: no hover change (swap transparent for var(--zw-field-bg) to keep a subtle tint) */
+  button:hover:not([selected]):not([aria-selected="true"]):not([aria-pressed="true"]):not([aria-current]),
+  select:hover,
+  .button:hover:not([selected]):not([aria-selected="true"]) {
+    background-color: transparent !important;
+    color: inherit !important;
   }
 }
