@@ -21,19 +21,21 @@
                url-prefix("chrome://mozapps/content/") {
 
   :root {
-    /* Palette from the GTK theme via system colors */
-    --zc-fg: CanvasText;
-    --zc-bar-bg: Canvas;
-    --zc-field-bg: color-mix(in srgb, CanvasText 7%, Canvas);
-    --zc-accent: CanvasText;      /* monochrome; use AccentColor to follow the GTK accent instead */
-    --zc-accent-fg: Canvas;       /* with AccentColor use AccentColorText */
+    /* Palette from the GTK theme. Canvas/CanvasText are the *document* colors (plain white/black for
+       Firefox's own pages); -moz-dialog/-moz-dialogtext are the GTK window colors, the same ones the
+       toolbars use, so these pages match the rest of the browser. */
+    --zc-fg: -moz-dialogtext;
+    --zc-bar-bg: -moz-dialog;
+    --zc-field-bg: color-mix(in srgb, var(--zc-fg) 7%, var(--zc-bar-bg));
+    --zc-accent: var(--zc-fg);       /* monochrome; use AccentColor to follow the GTK accent instead */
+    --zc-accent-fg: var(--zc-bar-bg); /* with AccentColor use AccentColorText */
     --zc-radius: 6px;
 
     /* No dotted focus outlines */
     --default-focusring-width: 0px !important;
     --default-focusring: 0px solid transparent !important;
-    --zc-pressed-bg: color-mix(in srgb, CanvasText 22%, Canvas);  /* pressed / highlighted: a mid tint, lighter than the selected item */
-    --zc-pressed-fg: CanvasText;
+    --zc-pressed-bg: color-mix(in srgb, var(--zc-fg) 22%, var(--zc-bar-bg));  /* pressed / highlighted: a mid tint, lighter than the selected item */
+    --zc-pressed-fg: var(--zc-fg);
 
     /* Page and card colors */
     --background-color-canvas: var(--zc-bar-bg) !important;
