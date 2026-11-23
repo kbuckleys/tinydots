@@ -546,3 +546,33 @@ toolbarbutton.subviewbutton {
 #urlbar-zoom-button[open] {
   background-color: var(--zw-active-bg) !important;
 }
+
+/* ============ Trust panel (shield popup in the address bar) ============ */
+/* No purple card, and a plain shield instead of the colorful graphic. */
+:root {
+  --trustpanel-highlight-bg: var(--zw-field-bg) !important;
+  --trustpanel-inner-border: var(--border-width, 1px) solid color-mix(in srgb, currentColor 15%, transparent) !important;
+  /* Redesign variant uses a purple gradient: flatten it */
+  --trustpanel-redesign-gradient-start: var(--zw-field-bg) !important;
+  --trustpanel-redesign-gradient-end: var(--zw-field-bg) !important;
+  --trustpanel-redesign-overlay: transparent !important;
+}
+
+#trustpanel-popup {
+  /* Basic outlined shield; fill comes from the element via context-fill */
+  --zw-shield-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='context-fill' fill-rule='evenodd' d='M12 1.5 3 5v6.5c0 5.2 3.8 9.6 9 11 5.2-1.4 9-5.8 9-11V5l-9-3.5ZM12 3.6 5 6.4v5.1c0 4 2.8 7.4 7 8.7 4.2-1.3 7-4.7 7-8.7V6.4l-7-2.8Z'/%3E%3C/svg%3E");
+  /* Neutral card border and divider (the tinted-card values are a violet wash) */
+  --trustpanel-card-border-color: transparent !important;
+  --trustpanel-card-divider-color: color-mix(in srgb, currentColor 15%, transparent) !important;
+}
+
+#trustpanel-popup[tracking-protection="enabled"] {
+  --trustpanel-image-legacy: var(--zw-shield-icon) !important;
+  --trustpanel-image-nova: var(--zw-shield-icon) !important;
+  --trustpanel-image-redesign: var(--zw-shield-icon) !important;
+}
+
+#trustpanel-graphic-image,
+#trustpanel-graphic-image-legacy {
+  fill: currentColor !important;
+}
