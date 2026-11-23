@@ -3,11 +3,12 @@
    └─┘└─┘┘└┘└┴┘└─┘┴└─┴ ┴└─┘
    https://github.com/kbuckleys/ */
 
-/* All about: pages and the dialogs they open (those are chrome:// documents, which is why about: alone
-   misses them). The scope list just below is the one place to extend if some dialog is still unthemed.
-   (settings, profiles, config, addons, logins...): colors come from the GTK theme via
-   CSS system colors, one radius everywhere, no hover effects.
-   This is userContent.css (not userChrome.css) and goes in the same chrome/ folder. */
+/* Theme for about: pages (settings, add-ons, profiles, config, logins...) and the chrome:// dialogs they
+   open, which is why about: alone isn't enough. Colors come from the GTK theme via CSS system colors,
+   one radius everywhere, no hover effects, mid-gray pressed state, no purple.
+   This is userContent.css (not userChrome.css) and goes in the same chrome/ folder.
+   Variables use the --zc- prefix so they can't clash with the --zw- ones in userChrome.css.
+   If some dialog is still unthemed, add its URL to the scope list just below. */
 @-moz-document url-prefix("about:"),
                /* Settings and every dialog opened from it (permissions, exceptions, certificates...) */
                url-prefix("chrome://browser/content/preferences/"),
@@ -21,50 +22,54 @@
 
   :root {
     /* Palette from the GTK theme via system colors */
-    --zw-fg: CanvasText;
-    --zw-bar-bg: Canvas;
-    --zw-field-bg: color-mix(in srgb, CanvasText 7%, Canvas);
-    --zw-accent: CanvasText;      /* monochrome; use AccentColor to follow the GTK accent instead */
-    --zw-accent-fg: Canvas;       /* with AccentColor use AccentColorText */
-    --zw-radius: 6px;
-    --zw-pressed-bg: color-mix(in srgb, CanvasText 22%, Canvas);  /* pressed / highlighted: a mid tint, lighter than the selected item */
-    --zw-pressed-fg: CanvasText;
+    --zc-fg: CanvasText;
+    --zc-bar-bg: Canvas;
+    --zc-field-bg: color-mix(in srgb, CanvasText 7%, Canvas);
+    --zc-accent: CanvasText;      /* monochrome; use AccentColor to follow the GTK accent instead */
+    --zc-accent-fg: Canvas;       /* with AccentColor use AccentColorText */
+    --zc-radius: 6px;
+
+    /* No dotted focus outlines */
+    --default-focusring-width: 0px !important;
+    --default-focusring: 0px solid transparent !important;
+    --zc-pressed-bg: color-mix(in srgb, CanvasText 22%, Canvas);  /* pressed / highlighted: a mid tint, lighter than the selected item */
+    --zc-pressed-fg: CanvasText;
 
     /* Page and card colors */
-    --background-color-canvas: var(--zw-bar-bg) !important;
-    --in-content-page-background: var(--zw-bar-bg) !important;
-    --background-color-box: var(--zw-field-bg) !important;
-    --in-content-box-background: var(--zw-field-bg) !important;
+    --background-color-canvas: var(--zc-bar-bg) !important;
+    --in-content-page-background: var(--zc-bar-bg) !important;
+    --background-color-box: var(--zc-field-bg) !important;
+    --in-content-box-background: var(--zc-field-bg) !important;
     --border-color-card: transparent !important;
     --box-shadow-card: none !important;
-    --text-color: var(--zw-fg) !important;
-    --in-content-page-color: var(--zw-fg) !important;
+    --text-color: var(--zc-fg) !important;
+    --in-content-page-color: var(--zc-fg) !important;
 
     /* Accent (buttons, selected nav item, focus rings, checkboxes) */
-    --color-accent-primary: var(--zw-accent) !important;
-    --color-accent-primary-active: var(--zw-accent) !important;
-    --in-content-accent-color: var(--zw-accent) !important;
-    --in-content-primary-button-text-color: var(--zw-accent-fg) !important;
-    --focus-outline-color: var(--zw-accent) !important;
-    --in-content-focus-outline-color: var(--zw-accent) !important;
-    --in-content-border-color-focus: var(--zw-accent) !important;
-    --button-background-color-primary: var(--zw-accent) !important;
-    --button-text-color-primary: var(--zw-accent-fg) !important;
-    --in-content-primary-button-background: var(--zw-accent) !important;
-    --in-content-primary-button-background-hover: var(--zw-accent) !important;
-    --in-content-primary-button-text-color-hover: var(--zw-accent-fg) !important;
+    --color-accent-primary: var(--zc-accent) !important;
+    --color-accent-primary-active: var(--zc-accent) !important;
+    --in-content-accent-color: var(--zc-accent) !important;
+    --in-content-primary-button-text-color: var(--zc-accent-fg) !important;
+    --focus-outline-color: var(--zc-accent) !important;
+    --in-content-focus-outline-color: var(--zc-accent) !important;
+    --in-content-border-color-focus: var(--zc-accent) !important;
+    --button-background-color-primary: var(--zc-accent) !important;
+    --button-text-color-primary: var(--zc-accent-fg) !important;
+    --in-content-primary-button-background: var(--zc-accent) !important;
+    --in-content-primary-button-background-hover: var(--zc-accent) !important;
+    --in-content-primary-button-text-color-hover: var(--zc-accent-fg) !important;
 
     /* Info message bars (the purple "These settings apply to every profile" boxes) */
-    --icon-color-information: var(--zw-fg) !important;
-    --background-color-information: var(--zw-field-bg) !important;
+    --icon-color-information: var(--zc-fg) !important;
+    --background-color-information: var(--zc-field-bg) !important;
     --border-color-information: transparent !important;
 
     /* One radius everywhere */
-    --border-radius-small: var(--zw-radius) !important;
-    --border-radius-medium: var(--zw-radius) !important;
-    --border-radius-large: var(--zw-radius) !important;
-    --button-border-radius: var(--zw-radius) !important;
-    --in-content-button-border-radius: var(--zw-radius) !important;
+    --border-radius-small: var(--zc-radius) !important;
+    --border-radius-medium: var(--zc-radius) !important;
+    --border-radius-large: var(--zc-radius) !important;
+    --button-border-radius: var(--zc-radius) !important;
+    --in-content-button-border-radius: var(--zc-radius) !important;
   }
 
   /* Components that bake pill shapes into --border-radius-circle */
@@ -81,13 +86,13 @@
   setting-control,
   panel-list,
   panel-item {
-    --border-radius-circle: var(--zw-radius) !important;
-    --border-radius-small: var(--zw-radius) !important;
-    --border-radius-medium: var(--zw-radius) !important;
-    --border-radius-large: var(--zw-radius) !important;
-    --button-border-radius: var(--zw-radius) !important;
-    --panel-border-radius: var(--zw-radius) !important;
-    --panel-item-border-radius: var(--zw-radius) !important;
+    --border-radius-circle: var(--zc-radius) !important;
+    --border-radius-small: var(--zc-radius) !important;
+    --border-radius-medium: var(--zc-radius) !important;
+    --border-radius-large: var(--zc-radius) !important;
+    --button-border-radius: var(--zc-radius) !important;
+    --panel-border-radius: var(--zc-radius) !important;
+    --panel-item-border-radius: var(--zc-radius) !important;
   }
 
   /* Hover = resting state. Set on :root and on the components, because components can redefine
@@ -110,12 +115,12 @@
   setting-control {
     --button-background-color-hover: transparent !important;
     --button-background-color-ghost-hover: transparent !important;
-    --button-background-color-primary-hover: var(--zw-accent) !important;
+    --button-background-color-primary-hover: var(--zc-accent) !important;
     --button-text-color-hover: inherit !important;
     --button-text-color-ghost-hover: inherit !important;
     --button-border-color-hover: currentColor !important;
     --background-color-interactive-hover: transparent !important;
-    --color-accent-primary-hover: var(--zw-accent) !important;
+    --color-accent-primary-hover: var(--zc-accent) !important;
     --in-content-button-background-hover: transparent !important;
     --in-content-button-text-color-hover: inherit !important;
     --in-content-button-border-color-hover: currentColor !important;
@@ -133,14 +138,14 @@
   moz-page-nav-button[selected],
   moz-page-nav-button[aria-selected="true"],
   moz-page-nav-button[aria-current] {
-    --page-nav-button-background-color-selected: var(--zw-accent) !important;
-    --page-nav-button-background-color-hover: var(--zw-accent) !important;
-    --page-nav-button-background-color-active: var(--zw-accent) !important;
-    --page-nav-button-text-color-selected: var(--zw-accent-fg) !important;
-    --page-nav-button-text-color-hover: var(--zw-accent-fg) !important;
-    --page-nav-button-text-color-active: var(--zw-accent-fg) !important;
-    --button-background-color-ghost-hover: var(--zw-accent) !important;
-    --button-text-color-ghost-hover: var(--zw-accent-fg) !important;
+    --page-nav-button-background-color-selected: var(--zc-accent) !important;
+    --page-nav-button-background-color-hover: var(--zc-accent) !important;
+    --page-nav-button-background-color-active: var(--zc-accent) !important;
+    --page-nav-button-text-color-selected: var(--zc-accent-fg) !important;
+    --page-nav-button-text-color-hover: var(--zc-accent-fg) !important;
+    --page-nav-button-text-color-active: var(--zc-accent-fg) !important;
+    --button-background-color-ghost-hover: var(--zc-accent) !important;
+    --button-text-color-ghost-hover: var(--zc-accent-fg) !important;
   }
 
   /* Pressed state: mid-tone fill while a button is held down */
@@ -153,21 +158,21 @@
   moz-radio,
   moz-select,
   setting-control {
-    --button-background-color-active: var(--zw-pressed-bg) !important;
-    --button-background-color-ghost-active: var(--zw-pressed-bg) !important;
-    --button-text-color-active: var(--zw-pressed-fg) !important;
-    --button-text-color-ghost-active: var(--zw-pressed-fg) !important;
+    --button-background-color-active: var(--zc-pressed-bg) !important;
+    --button-background-color-ghost-active: var(--zc-pressed-bg) !important;
+    --button-text-color-active: var(--zc-pressed-fg) !important;
+    --button-text-color-ghost-active: var(--zc-pressed-fg) !important;
     --button-border-color-active: currentColor !important;
     /* Primary buttons are already filled, so pressed flips them back to the page colors */
-    --button-background-color-primary-active: var(--zw-bar-bg) !important;
-    --button-text-color-primary-active: var(--zw-fg) !important;
-    --in-content-button-background-active: var(--zw-pressed-bg) !important;
-    --in-content-button-text-color-active: var(--zw-pressed-fg) !important;
+    --button-background-color-primary-active: var(--zc-bar-bg) !important;
+    --button-text-color-primary-active: var(--zc-fg) !important;
+    --in-content-button-background-active: var(--zc-pressed-bg) !important;
+    --in-content-button-text-color-active: var(--zc-pressed-fg) !important;
     --in-content-button-border-color-active: currentColor !important;
-    --in-content-primary-button-background-active: var(--zw-bar-bg) !important;
-    --in-content-primary-button-text-color-active: var(--zw-fg) !important;
-    --page-nav-button-background-color-active: var(--zw-pressed-bg) !important;
-    --page-nav-button-text-color-active: var(--zw-pressed-fg) !important;
+    --in-content-primary-button-background-active: var(--zc-bar-bg) !important;
+    --in-content-primary-button-text-color-active: var(--zc-fg) !important;
+    --page-nav-button-background-color-active: var(--zc-pressed-bg) !important;
+    --page-nav-button-text-color-active: var(--zc-pressed-fg) !important;
   }
 
   /* No transitions, so nothing animates on hover */
@@ -182,10 +187,10 @@
   textarea,
   menulist,
   .button {
-    border-radius: var(--zw-radius) !important;
+    border-radius: var(--zc-radius) !important;
   }
 
-  /* Classic controls: no hover change (swap transparent for var(--zw-field-bg) to keep a subtle tint) */
+  /* Classic controls: no hover change (swap transparent for var(--zc-field-bg) to keep a subtle tint) */
   button:hover:not(.primary):not([default]):not([dlgtype="accept"]):not([selected]):not([aria-selected="true"]):not([aria-pressed="true"]):not([aria-current]),
   select:hover,
   .button:hover:not([selected]):not([aria-selected="true"]) {
@@ -197,20 +202,20 @@
   button:hover:active:not(.primary):not([default]):not([dlgtype="accept"]):not([selected]):not([aria-selected="true"]):not([aria-pressed="true"]):not([aria-current]),
   select:hover:active,
   .button:hover:active:not([selected]):not([aria-selected="true"]) {
-    background-color: var(--zw-pressed-bg) !important;
-    color: var(--zw-pressed-fg) !important;
+    background-color: var(--zc-pressed-bg) !important;
+    color: var(--zc-pressed-fg) !important;
   }
 
   /* Classic primary buttons (Save changes, OK...): solid accent, flips on press */
   button.primary, button[default], button[dlgtype="accept"],
   button.primary:hover, button[default]:hover, button[dlgtype="accept"]:hover {
-    background-color: var(--zw-accent) !important;
-    color: var(--zw-accent-fg) !important;
-    border-color: var(--zw-accent) !important;
+    background-color: var(--zc-accent) !important;
+    color: var(--zc-accent-fg) !important;
+    border-color: var(--zc-accent) !important;
   }
   button.primary:hover:active, button[default]:hover:active, button[dlgtype="accept"]:hover:active {
-    background-color: var(--zw-bar-bg) !important;
-    color: var(--zw-fg) !important;
+    background-color: var(--zc-bar-bg) !important;
+    color: var(--zc-fg) !important;
     border-color: currentColor !important;
   }
 
@@ -225,7 +230,7 @@
   search-textbox,
   moz-message-bar,
   panel-list::part(panel) {
-    border-radius: var(--zw-radius) !important;
+    border-radius: var(--zc-radius) !important;
   }
   .dialogBox { overflow: hidden !important; }
 
@@ -236,42 +241,29 @@
   menulist,
   menuitem,
   menu {
-    --in-content-item-hover: var(--zw-pressed-bg) !important;
-    --in-content-item-hover-text: var(--zw-pressed-fg) !important;
-    --in-content-item-selected: var(--zw-pressed-bg) !important;
-    --in-content-item-selected-text: var(--zw-pressed-fg) !important;
-    --background-color-interactive-hover: var(--zw-pressed-bg) !important;
+    --in-content-item-hover: var(--zc-pressed-bg) !important;
+    --in-content-item-hover-text: var(--zc-pressed-fg) !important;
+    --in-content-item-selected: var(--zc-pressed-bg) !important;
+    --in-content-item-selected-text: var(--zc-pressed-fg) !important;
+    --background-color-interactive-hover: var(--zc-pressed-bg) !important;
   }
-  menupopup > menuitem[_moz-menuactive="true"],
-  menupopup > menuitem[_moz-menuactive="true"]:hover,
-  menupopup > menuitem[_moz-menuactive="true"][selected]:hover,
-  menupopup > menuitem[selected="true"][_moz-menuactive="true"],
-  menupopup > menuitem[selected="true"]:hover,
-  menupopup > menuitem[selected="true"]:focus,
-  menupopup > menuitem:not([disabled="true"]):hover,
-  menupopup > menuitem:not([disabled="true"]):hover:active,
-  menupopup > menu[_moz-menuactive="true"],
-  menupopup > menu:hover,
-  menulist > menupopup > menuitem[selected],
-  menulist > menupopup > menuitem[selected]:hover {
-    background-color: var(--zw-pressed-bg) !important;
+  menupopup > menuitem:not([disabled="true"]):is([_moz-menuactive="true"], [selected="true"], :hover, :focus),
+  menupopup > menu:not([disabled="true"]):is([_moz-menuactive="true"], :hover),
+  menulist > menupopup > menuitem[selected]:not([disabled="true"]) {
+    background-color: var(--zc-pressed-bg) !important;
     background-image: none !important;
-    color: var(--zw-pressed-fg) !important;
+    color: var(--zc-pressed-fg) !important;
   }
-  menupopup > menuitem[_moz-menuactive="true"] label,
-  menupopup > menuitem:hover label,
-  menupopup > menuitem[selected="true"] label,
-  menupopup > menuitem[_moz-menuactive="true"] > .menu-text,
-  menupopup > menuitem:hover > .menu-text {
-    color: var(--zw-pressed-fg) !important;
+  menupopup > menuitem:not([disabled="true"]):is([_moz-menuactive="true"], [selected="true"], :hover) :is(label, .menu-text) {
+    color: var(--zc-pressed-fg) !important;
   }
 
   /* No purple left: checkboxes, radios and focus rings use the accent */
-  input[type="checkbox"], input[type="radio"] { accent-color: var(--zw-accent) !important; }
-  :focus-visible { outline-color: var(--zw-accent) !important; }
+  input[type="checkbox"], input[type="radio"] { accent-color: var(--zc-accent) !important; }
+  :focus-visible { outline-color: var(--zc-accent) !important; }
   input:focus, input:focus-visible, textarea:focus, select:focus,
   search-textbox[focused], .search-container:focus-within {
-    border-color: var(--zw-accent) !important;
-    outline-color: var(--zw-accent) !important;
+    border-color: var(--zc-accent) !important;
+    outline-color: var(--zc-accent) !important;
   }
 }

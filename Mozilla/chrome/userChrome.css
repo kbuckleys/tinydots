@@ -20,8 +20,8 @@
   --toolbarbutton-inner-padding: 0px;
   --tab-hover-background-color: transparent !important;
 
-  /* Tab divider: mid-gray with some transparency, readable on dark and light themes */
-  --tab-divider-color: rgba(128, 128, 128, 0.7);
+  /* Tab divider: the text color at partial opacity, so it follows the GTK scheme (light or dark) */
+  --tab-divider-color: color-mix(in srgb, var(--zw-fg) 50%, transparent);
 
   /* Max share of the tab's width that its title can use */
   --tab-title-max-width: 85%;
@@ -31,19 +31,35 @@
   --tabs-border-color: transparent !important;
   --tab-selected-outline-color: transparent !important;
 
-  /* Scheme-aware colors */
-  --zw-fg: light-dark(#15141a, #fbfbfe);
-  --zw-field-bg: light-dark(rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.08));
+  /* Colors follow the GTK theme: Firefox's own toolbar text color (-moz-dialogtext, i.e. GTK's window text
+     color, unless a Firefox theme sets --toolbar-color), and tints of it for fields and chips. Needs the
+     Firefox theme set to Default / System theme, not Light or Dark. */
+  --zw-fg: var(--toolbar-color, -moz-dialogtext);
+  --zw-field-bg: color-mix(in srgb, var(--zw-fg) 7%, transparent);
 
   /* Shared hover / pressed chip backgrounds (nav buttons, zoom indicator) */
-  --zw-hover-bg: rgba(128, 128, 128, 0.2);
-  --zw-active-bg: rgba(128, 128, 128, 0.35);
+  --zw-hover-bg: color-mix(in srgb, var(--zw-fg) 15%, transparent);
+  --zw-active-bg: color-mix(in srgb, var(--zw-fg) 28%, transparent);
 
   /* Slightly rounded urlbar (everything else stays square) */
   --urlbar-border-radius: 6px !important;
   --urlbarview-border-radius: 6px !important;
   --button-border-radius: 6px !important;
   --urlbar-icon-border-radius: 6px !important;
+
+  /* Trust panel (shield popup): neutral card instead of violet */
+  --trustpanel-highlight-bg: var(--zw-field-bg) !important;
+  --trustpanel-inner-border: var(--border-width, 1px) solid color-mix(in srgb, currentColor 15%, transparent) !important;
+  --trustpanel-redesign-gradient-start: var(--zw-field-bg) !important;
+  --trustpanel-redesign-gradient-end: var(--zw-field-bg) !important;
+  --trustpanel-redesign-overlay: transparent !important;
+
+  /* No dotted focus/selection outlines (Firefox draws them with --default-focusring: 2px dotted) */
+  --default-focusring-width: 0px !important;
+  --default-focusring: 0px solid transparent !important;
+
+  /* Hamburger menu: no gradient on the separator under the profile rows */
+  --panel-separator-zap-gradient: none !important;
 }
 
 /* The urlbar sets these on itself, so :root alone isn't enough */
@@ -283,7 +299,7 @@ toolbarbutton.subviewbutton {
 @media (prefers-color-scheme: light) {
   .tabbrowser-tab:not([selected]) .tab-background,
   .tabbrowser-tab:not([selected]):hover .tab-background {
-    background-color: rgba(0, 0, 0, 0.07) !important;
+    background-color: color-mix(in srgb, var(--zw-fg) 7%, transparent) !important;
   }
 }
 
@@ -349,12 +365,6 @@ toolbarbutton.subviewbutton {
 }
 
 /* ============ Autohide navigation controls ============ */
-#back-button,
-#forward-button {
-  opacity: 0 !important;
-  transition: opacity 150ms ease !important;
-}
-
 :is(#nav-bar:hover, :root:has(#backForwardMenu[state="open"])) :is(#back-button, #forward-button),
 #back-button[open],
 #forward-button[open] {
@@ -400,6 +410,9 @@ toolbarbutton.subviewbutton {
    with horizontal inner padding. Tweak --zw-nav-chip-height / --zw-nav-chip-padding to taste. */
 #back-button,
 #forward-button {
+  /* Autohide: invisible until the nav bar is hovered (see the :is(#nav-bar:hover ...) rules above) */
+  opacity: 0 !important;
+  transition: opacity 150ms ease !important;
   --zw-nav-chip-height: 28px;
   --zw-nav-chip-padding: 6px;
   align-self: center !important;
@@ -548,15 +561,7 @@ toolbarbutton.subviewbutton {
 }
 
 /* ============ Trust panel (shield popup in the address bar) ============ */
-/* No purple card, and a plain shield instead of the colorful graphic. */
-:root {
-  --trustpanel-highlight-bg: var(--zw-field-bg) !important;
-  --trustpanel-inner-border: var(--border-width, 1px) solid color-mix(in srgb, currentColor 15%, transparent) !important;
-  /* Redesign variant uses a purple gradient: flatten it */
-  --trustpanel-redesign-gradient-start: var(--zw-field-bg) !important;
-  --trustpanel-redesign-gradient-end: var(--zw-field-bg) !important;
-  --trustpanel-redesign-overlay: transparent !important;
-}
+/* No purple card, and a plain shield instead of the colorful graphic (variables are in the :root block at the top). */
 
 #trustpanel-popup {
   /* Basic outlined shield; fill comes from the element via context-fill */
@@ -575,4 +580,100 @@ toolbarbutton.subviewbutton {
 #trustpanel-graphic-image,
 #trustpanel-graphic-image-legacy {
   fill: currentColor !important;
+}
+
+/* ============ Hamburger menu: plain separator instead of the gradient hairline ============ */
+/* The separator element already has color: var(--panel-separator-color) (a 25% mix), and its line is drawn
+   in currentColor, so use currentColor here. Re-applying the variable would fade it twice. */
+toolbarseparator.proton-zap::before {
+  border-image: none !important;
+  border-color: currentColor !important;
+}
+
+/* ============ No dotted selection outline on tree rows (Library, etc.) ============ */
+treechildren::-moz-tree-row(current, focus),
+treechildren::-moz-tree-row(selected, current, focus) {
+  outline: none !important;
+}
+
+/* ============ Library window (Bookmarks / History / Downloads): tighter, square ============ */
+@-moz-document url(chrome://browser/content/places/places.xhtml) {
+  /* Search box: no pill */
+  #searchFilter {
+    --input-search-border-radius: var(--button-border-radius, 6px) !important;
+    --input-border-radius: var(--button-border-radius, 6px) !important;
+    --border-radius-circle: var(--button-border-radius, 6px) !important;
+    --border-radius-small: var(--button-border-radius, 6px) !important;
+    --border-radius-medium: var(--button-border-radius, 6px) !important;
+    border-radius: var(--button-border-radius, 6px) !important;
+  }
+
+  /* Square panes and menus */
+  #placesList,
+  #placeContent,
+  #contentView,
+  #detailsPane,
+  #placesMenu > menu,
+  #placesToolbar > toolbarbutton {
+    border-radius: 0 !important;
+  }
+
+  /* Toolbar, details pane and folder list */
+  #placesToolbar {
+    padding-block: 2px !important;
+    padding-inline: 4px !important;
+  }
+  #detailsPane {
+    padding: 2px !important;
+  }
+  #placesList {
+    width: 11em !important;
+  }
+
+  /* The autohide rules for back/forward (set up for the nav bar) also hide these buttons here, but they
+     still take up ~70px on the left. Show them normally when usable, collapse them when disabled. */
+  #placesToolbar :is(#back-button, #forward-button) {
+    opacity: 1 !important;
+  }
+  #placesToolbar :is(#back-button, #forward-button)[disabled] {
+    display: none !important;
+  }
+
+  /* No hover effect on rows. The hover rule is !important here, so the selected and striped states are
+     restated with higher specificity (more states in the list) to stay intact while hovered. */
+  #placesList treechildren::-moz-tree-row(hover),
+  #placeContent treechildren::-moz-tree-row(hover) {
+    background-color: transparent !important;
+  }
+  #placeContent treechildren::-moz-tree-row(multicol, odd, hover) {
+    background-color: -moz-oddtreerow !important;
+  }
+  #placesList treechildren::-moz-tree-row(selected, hover),
+  #placeContent treechildren::-moz-tree-row(selected, hover),
+  #placeContent treechildren::-moz-tree-row(selected, multicol, odd, hover) {
+    background-color: -moz-cellhighlight !important;
+  }
+  #placesList treechildren::-moz-tree-row(selected, focus, hover),
+  #placeContent treechildren::-moz-tree-row(selected, focus, hover),
+  #placeContent treechildren::-moz-tree-row(selected, focus, multicol, odd, hover) {
+    background-color: SelectedItem !important;
+  }
+  #downloadsListBox > richlistitem:not([selected]):hover,
+  #placeContent treecol:hover,
+  #placesList treecol:hover {
+    background-color: transparent !important;
+  }
+
+  /* Rows (folder list and content): compact, no extra vertical padding. Raise/lower min-height to taste. */
+  #placesList treechildren::-moz-tree-row,
+  #placeContent treechildren::-moz-tree-row {
+    min-height: 22px !important;
+    margin: 0 !important;
+    padding-block: 0 !important;
+    border-radius: 0 !important;
+  }
+  #placesList treechildren::-moz-tree-cell,
+  #placeContent treechildren::-moz-tree-cell {
+    padding-block: 0 !important;
+  }
 }
