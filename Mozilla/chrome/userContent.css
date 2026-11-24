@@ -131,9 +131,7 @@
 
     /* Settings sidebar items: hover looks like rest (these are the tokens moz-page-nav-button reads) */
     --page-nav-button-background-color-hover: var(--page-nav-button-background-color) !important;
-    --page-nav-button-background-color-active: var(--page-nav-button-background-color) !important;
     --page-nav-button-text-color-hover: var(--page-nav-button-text-color) !important;
-    --page-nav-button-text-color-active: var(--page-nav-button-text-color) !important;
   }
 
   /* Selected sidebar item: same highlight whether hovered or not */

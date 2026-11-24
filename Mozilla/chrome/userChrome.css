@@ -41,11 +41,12 @@
   --zw-hover-bg: color-mix(in srgb, var(--zw-fg) 15%, transparent);
   --zw-active-bg: color-mix(in srgb, var(--zw-fg) 28%, transparent);
 
-  /* Slightly rounded urlbar (everything else stays square) */
-  --urlbar-border-radius: 6px !important;
-  --urlbarview-border-radius: 6px !important;
-  --button-border-radius: 6px !important;
-  --urlbar-icon-border-radius: 6px !important;
+  /* The one radius used by the urlbar, chips, popups and the Library window (everything else stays square) */
+  --zw-radius: 6px;
+  --urlbar-border-radius: var(--zw-radius) !important;
+  --urlbarview-border-radius: var(--zw-radius) !important;
+  --button-border-radius: var(--zw-radius) !important;
+  --urlbar-icon-border-radius: var(--zw-radius) !important;
 
   /* Trust panel (shield popup): neutral card instead of violet */
   --trustpanel-highlight-bg: var(--zw-field-bg) !important;
@@ -65,10 +66,10 @@
 /* The urlbar sets these on itself, so :root alone isn't enough */
 #urlbar,
 #urlbar-container {
-  --urlbar-border-radius: 6px !important;
-  --urlbarview-border-radius: 6px !important;
-  --button-border-radius: 6px !important;
-  --urlbar-icon-border-radius: 6px !important;
+  --urlbar-border-radius: var(--zw-radius) !important;
+  --urlbarview-border-radius: var(--zw-radius) !important;
+  --button-border-radius: var(--zw-radius) !important;
+  --urlbar-icon-border-radius: var(--zw-radius) !important;
 }
 
 /* ============ Square corners (fallbacks) ============ */
@@ -117,12 +118,10 @@
 
 /* ============ Popups: the urlbar's radius ============ */
 /* Hamburger menu, context menus, dropdowns and subviews use the same radius as the urlbar and chips
-   (var(--urlbar-border-radius), 6px). Colors are left to Firefox. */
+   (var(--urlbar-border-radius), i.e. --zw-radius). Colors are left to Firefox. */
 menupopup,
 panel,
-.panel-subview-body,
-#appMenu-popup,
-#customizationui-widget-panel {
+.panel-subview-body {
   --panel-border-radius: var(--urlbar-border-radius) !important;
   --arrowpanel-border-radius: var(--urlbar-border-radius) !important;
   --arrowpanel-menuitem-border-radius: var(--urlbar-border-radius) !important;
@@ -130,17 +129,23 @@ panel,
 }
 
 menupopup::part(content),
-panel::part(content),
-.panel-arrowcontent {
+panel::part(content) {
   border-radius: var(--urlbar-border-radius) !important;
 }
 
 /* Menu items */
 menuitem,
 menu,
-.subviewbutton,
-toolbarbutton.subviewbutton {
+.subviewbutton {
   border-radius: var(--urlbar-border-radius) !important;
+}
+
+/* Bookmark panel fields: Firefox hides the border of a focused field (border-color: transparent) and
+   relies on its accent focus outline instead; with this setup that outline doesn't show, so the field
+   would lose its border. Keep a solid border in the panel's text color while focused. */
+#editBookmarkPanel :is(input, #editBMPanel_folderTree, #editBMPanel_tagsSelector):focus {
+  border-color: currentColor !important;
+  outline: none !important;
 }
 
 /* ============ Remove close buttons, favicons, media icons, new-tab button, window buttons ============ */
@@ -262,8 +267,6 @@ toolbarbutton.subviewbutton {
 /* ============ No hover effect on tabs ============ */
 .tabbrowser-tab:not([selected]):hover .tab-background {
   background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
   border-color: transparent !important;
 }
 .tabbrowser-tab:hover .tab-label {
@@ -296,6 +299,7 @@ toolbarbutton.subviewbutton {
 }
 
 /* ============ Slightly darken inactive tab color in light mode ============ */
+/* Keep this below the "No hover effect on tabs" rule: same specificity, so the later one wins on hover. */
 @media (prefers-color-scheme: light) {
   .tabbrowser-tab:not([selected]) .tab-background,
   .tabbrowser-tab:not([selected]):hover .tab-background {
@@ -564,22 +568,27 @@ toolbarbutton.subviewbutton {
 /* No purple card, and a plain shield instead of the colorful graphic (variables are in the :root block at the top). */
 
 #trustpanel-popup {
-  /* Basic outlined shield; fill comes from the element via context-fill */
-  --zw-shield-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='context-fill' fill-rule='evenodd' d='M12 1.5 3 5v6.5c0 5.2 3.8 9.6 9 11 5.2-1.4 9-5.8 9-11V5l-9-3.5ZM12 3.6 5 6.4v5.1c0 4 2.8 7.4 7 8.7 4.2-1.3 7-4.7 7-8.7V6.4l-7-2.8Z'/%3E%3C/svg%3E");
+  /* Basic outlined shield, used as a mask (opaque black) so it can be tinted with any color */
+  --zw-shield-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M12 1.5 3 5v6.5c0 5.2 3.8 9.6 9 11 5.2-1.4 9-5.8 9-11V5l-9-3.5ZM12 3.6 5 6.4v5.1c0 4 2.8 7.4 7 8.7 4.2-1.3 7-4.7 7-8.7V6.4l-7-2.8Z'/%3E%3C/svg%3E");
   /* Neutral card border and divider (the tinted-card values are a violet wash) */
   --trustpanel-card-border-color: transparent !important;
   --trustpanel-card-divider-color: color-mix(in srgb, currentColor 15%, transparent) !important;
 }
 
-#trustpanel-popup[tracking-protection="enabled"] {
-  --trustpanel-image-legacy: var(--zw-shield-icon) !important;
-  --trustpanel-image-nova: var(--zw-shield-icon) !important;
-  --trustpanel-image-redesign: var(--zw-shield-icon) !important;
-}
-
-#trustpanel-graphic-image,
-#trustpanel-graphic-image-legacy {
-  fill: currentColor !important;
+/* Same mask technique as the other glyphs: the shield is drawn in the panel's text color (currentColor),
+   so it follows light/dark. Covers the Nova, legacy and redesign graphics; only in the "enabled" state,
+   the other states keep Firefox's own warning/disabled graphics. */
+#trustpanel-popup[tracking-protection="enabled"] :is(
+  #trustpanel-graphic-image,
+  #trustpanel-graphic-image-legacy,
+  #trustpanel-graphic-image-redesign
+) {
+  background-image: none !important;
+  background-color: currentColor !important;
+  mask-image: var(--zw-shield-mask) !important;
+  mask-repeat: no-repeat !important;
+  mask-position: center !important;
+  mask-size: contain !important;
 }
 
 /* ============ Hamburger menu: plain separator instead of the gradient hairline ============ */
@@ -591,8 +600,7 @@ toolbarseparator.proton-zap::before {
 }
 
 /* ============ No dotted selection outline on tree rows (Library, etc.) ============ */
-treechildren::-moz-tree-row(current, focus),
-treechildren::-moz-tree-row(selected, current, focus) {
+treechildren::-moz-tree-row(current, focus) {
   outline: none !important;
 }
 
@@ -600,12 +608,12 @@ treechildren::-moz-tree-row(selected, current, focus) {
 @-moz-document url(chrome://browser/content/places/places.xhtml) {
   /* Search box: no pill */
   #searchFilter {
-    --input-search-border-radius: var(--button-border-radius, 6px) !important;
-    --input-border-radius: var(--button-border-radius, 6px) !important;
-    --border-radius-circle: var(--button-border-radius, 6px) !important;
-    --border-radius-small: var(--button-border-radius, 6px) !important;
-    --border-radius-medium: var(--button-border-radius, 6px) !important;
-    border-radius: var(--button-border-radius, 6px) !important;
+    --input-search-border-radius: var(--zw-radius) !important;
+    --input-border-radius: var(--zw-radius) !important;
+    --border-radius-circle: var(--zw-radius) !important;
+    --border-radius-small: var(--zw-radius) !important;
+    --border-radius-medium: var(--zw-radius) !important;
+    border-radius: var(--zw-radius) !important;
   }
 
   /* Square panes and menus */
@@ -682,7 +690,7 @@ treechildren::-moz-tree-row(selected, current, focus) {
 /* The label is hidden and a small plus is drawn in its place, same mask technique as the other glyphs
    (it takes --zw-fg, so it follows the GTK scheme). Matches Firefox's English label; for another locale,
    change the string. To swap the glyph, replace the path inside the url(...) below. */
-.tabbrowser-tab[label="New Tab"] :is(.tab-label, .tab-text) {
+.tabbrowser-tab[label="New Tab"] .tab-label {
   /* display:none, not visibility:hidden: the label is set to flex: 1 1 100% above, so even hidden it would
      fill the container and push the glyph to the left edge */
   display: none !important;
