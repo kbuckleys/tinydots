@@ -677,3 +677,10 @@ treechildren::-moz-tree-row(selected, current, focus) {
     padding-block: 0 !important;
   }
 }
+
+/* ============ Blank title for new tabs ============ */
+/* Hides the label of tabs titled "New Tab" (the new tab page and blank tabs). The icon and close button
+   keep their places. Matches Firefox's English label; for another locale, change the string. */
+.tabbrowser-tab[label="New Tab"] :is(.tab-label, .tab-text) {
+  visibility: hidden !important;
+}
