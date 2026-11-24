@@ -678,9 +678,28 @@ treechildren::-moz-tree-row(selected, current, focus) {
   }
 }
 
-/* ============ Blank title for new tabs ============ */
-/* Hides the label of tabs titled "New Tab" (the new tab page and blank tabs). The icon and close button
-   keep their places. Matches Firefox's English label; for another locale, change the string. */
+/* ============ New tab: a glyph instead of the "New Tab" title ============ */
+/* The label is hidden and a small plus is drawn in its place, same mask technique as the other glyphs
+   (it takes --zw-fg, so it follows the GTK scheme). Matches Firefox's English label; for another locale,
+   change the string. To swap the glyph, replace the path inside the url(...) below. */
 .tabbrowser-tab[label="New Tab"] :is(.tab-label, .tab-text) {
-  visibility: hidden !important;
+  /* display:none, not visibility:hidden: the label is set to flex: 1 1 100% above, so even hidden it would
+     fill the container and push the glyph to the left edge */
+  display: none !important;
+}
+.tabbrowser-tab[label="New Tab"] .tab-label-container {
+  align-items: center !important;   /* vertical centering; justify-content: center above does the horizontal */
+}
+.tabbrowser-tab[label="New Tab"] .tab-label-container::before {
+  content: "";
+  display: block;
+  flex: none;
+  margin: 0 auto !important;   /* auto margins centre it horizontally whatever justify-content does */
+  width: 14px;
+  height: 14px;
+  background-color: var(--zw-fg);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5v9M3.5 8h9' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
 }
